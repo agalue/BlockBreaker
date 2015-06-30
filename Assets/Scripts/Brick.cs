@@ -11,6 +11,7 @@ public class Brick : MonoBehaviour {
 	private int timesHit;
 	private bool isBreakable;
 	private LevelManager levelManager;
+	private SpriteRenderer spriteRenderer;
 	
 	void Start () {
 		isBreakable = tag == "Breakable";
@@ -19,7 +20,8 @@ public class Brick : MonoBehaviour {
 			breakableCount++;
 		}
 		timesHit = 0;
-		levelManager = GameObject.FindObjectOfType<LevelManager>();
+		levelManager = FindObjectOfType<LevelManager>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	void OnCollisionEnter2D (Collision2D collision) {
@@ -46,13 +48,13 @@ public class Brick : MonoBehaviour {
 	
 	void PuffSmoke() {
 		GameObject smokePuff = Instantiate(smoke, transform.position, Quaternion.identity) as GameObject;
-		smokePuff.particleSystem.startColor = gameObject.GetComponent<SpriteRenderer>().color;
+		smokePuff.GetComponent<ParticleSystem>().startColor = spriteRenderer.color;
 	}
 
 	void LoadSprites() {
 		int spriteIndex = timesHit - 1;
 		if (hitSprites[spriteIndex] != null) {
-			GetComponent<SpriteRenderer>().sprite = hitSprites[spriteIndex];
+			spriteRenderer.sprite = hitSprites[spriteIndex];
 		} else {
 			Debug.LogError("Can't find brick sprite with index " + spriteIndex);
 		}

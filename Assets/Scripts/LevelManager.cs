@@ -25,8 +25,6 @@ public class LevelManager : MonoBehaviour {
 		rightTop.x += lifeSpawnOffset + lifeSpawnPadding;
 		rightTop.y -= lifeSpawnOffset;
 		DisplayLifes(rightTop);
-		
-		DisplayLifes(rightTop);
 	}
 	
 	public void LoadLevel(string name) {
@@ -63,8 +61,13 @@ public class LevelManager : MonoBehaviour {
 	}
 	
 	private IEnumerator LoadNextLevel() {
-		ball.rigidbody2D.velocity = Vector2.zero; // Stop the ball prior loading the next level
+		// Stop the ball prior loading the next level
+		Rigidbody2D rigidbody2D = ball.GetComponent<Rigidbody2D>();
+		rigidbody2D.velocity = Vector2.zero;
+		rigidbody2D.angularVelocity = 0;
+
 		yield return new WaitForSeconds(1f);
+
 		int nextLevel = Application.loadedLevel + 1;
 		Debug.Log("Loading level " + nextLevel);
 		ReinitializeBrickCount();
@@ -80,15 +83,16 @@ public class LevelManager : MonoBehaviour {
 			return; // Showing remaining lifes makes sense only on playable scenes
 		}
 		lifes = new GameObject[liveRemaining];
+		Debug.Log ("Displaying " + liveRemaining + " lives");
 		for (int i = 0; i < liveRemaining; i++) {
 			Vector3 pos = new Vector3(reference.x + i * lifeSpawnOffset, reference.y, 5); // z=-5 means appear in front of everything
 			lifes[i] = Instantiate(lifeIcon, pos, Quaternion.identity) as GameObject;
-			lifes[i].transform.parent = transform;
 		}
 	}
 	
 	private void DecreaseLife() {
 		liveRemaining--;
+		Debug.Log (liveRemaining + " lives");
 		Destroy(lifes[liveRemaining]);
 	}
 	

@@ -4,11 +4,16 @@ using System.Collections;
 public class Ball : MonoBehaviour {
 
 	private Paddle paddle;
+	private Rigidbody2D rigidbody2D;
+	private AudioSource audioSource;
+
 	private bool hasStarted = false;
 	private Vector3 paddleToBallVector;
 	
 	void Start () {
-		paddle = GameObject.FindObjectOfType<Paddle>();
+		paddle = FindObjectOfType<Paddle>();
+		rigidbody2D = GetComponent<Rigidbody2D>();
+		audioSource = GetComponent<AudioSource>();
 		paddleToBallVector = this.transform.position - paddle.transform.position;
 	}
 	
@@ -31,7 +36,7 @@ public class Ball : MonoBehaviour {
 		if (hasStarted) {
 			// Avoid entering into infinite loops by adding a random velocity
 			rigidbody2D.velocity += new Vector2(Random.Range (0f, 0.2f), Random.Range(0f, 0.2f));
-			audio.Play();
+			audioSource.Play();
 		}
 	}
 	
