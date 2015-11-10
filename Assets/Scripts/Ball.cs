@@ -4,7 +4,7 @@ using System.Collections;
 public class Ball : MonoBehaviour {
 
 	private Paddle paddle;
-	private Rigidbody2D rigidbody2D;
+	private new Rigidbody2D rigidbody2D;
 	private AudioSource audioSource;
 
 	private bool hasStarted = false;
