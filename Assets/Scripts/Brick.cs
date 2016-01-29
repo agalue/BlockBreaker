@@ -24,7 +24,7 @@ public class Brick : MonoBehaviour {
 		spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
-	void OnCollisionEnter2D (Collision2D collision) {
+	void OnCollisionExit2D (Collision2D collision) {
 		if (isBreakable) {
 			// Be sure to play the sound even if the brick is destroyed.
 			AudioSource.PlayClipAtPoint(crack, transform.position, 0.1f);

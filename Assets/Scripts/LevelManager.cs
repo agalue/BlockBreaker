@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class LevelManager : MonoBehaviour {
@@ -30,7 +31,7 @@ public class LevelManager : MonoBehaviour {
 	public void LoadLevel(string name) {
 		Debug.Log("Level load requested for: " + name);
 		ReinitializeBrickCount();
-		Application.LoadLevel(name);
+		SceneManager.LoadScene(name);
 	}
 
 	public void PlayerLose() {
@@ -68,10 +69,10 @@ public class LevelManager : MonoBehaviour {
 
 		yield return new WaitForSeconds(1f);
 
-		int nextLevel = Application.loadedLevel + 1;
+		int nextLevel = SceneManager.GetActiveScene().buildIndex + 1;
 		Debug.Log("Loading level " + nextLevel);
 		ReinitializeBrickCount();
-		Application.LoadLevel(nextLevel);
+		SceneManager.LoadScene(nextLevel);
 	}
 	
 	private void ReinitializeBrickCount() {
@@ -79,7 +80,7 @@ public class LevelManager : MonoBehaviour {
 	}
 	
 	private void DisplayLifes(Vector3 reference) {
-		if (!Application.loadedLevelName.StartsWith("Level")) {
+		if (!SceneManager.GetActiveScene().name.StartsWith("Level")) {
 			return; // Showing remaining lifes makes sense only on playable scenes
 		}
 		lifes = new GameObject[liveRemaining];
